@@ -1,6 +1,3 @@
-//go:build freebsd || linux || darwin
-// +build freebsd linux darwin
-
 /*
    Copyright The containerd Authors.
 
@@ -17,19 +14,36 @@
    limitations under the License.
 */
 
-package main
+package defaults
 
 import (
-	"path/filepath"
-
-	"golang.org/x/sys/unix"
+	gocni "github.com/containerd/go-cni"
 )
 
-func isSocketAccessible(s string) error {
-	abs, err := filepath.Abs(s)
-	if err != nil {
-		return err
-	}
-	// set AT_EACCESS to allow running nerdctl as a setuid binary
-	return unix.Faccessat(-1, abs, unix.R_OK|unix.W_OK, unix.AT_REMOVEDIR|unix.AT_EACCESS)
+const AppArmorProfileName = ""
+const Runtime = "wtf.sbk.runj.v1"
+
+func DataRoot() string {
+	return "/var/lib/nerdctl"
+}
+
+func CNIPath() string {
+	// default: /opt/cni/bin
+	return gocni.DefaultCNIDir
+}
+
+func CNINetConfPath() string {
+	return gocni.DefaultNetDir
+}
+
+func BuildKitHost() string {
+	return "unix:///run/buildkit/buildkitd.sock"
+}
+
+func CgroupManager() string {
+	return ""
+}
+
+func CgroupnsMode() string {
+	return ""
 }

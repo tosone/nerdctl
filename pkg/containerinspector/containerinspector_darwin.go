@@ -1,6 +1,3 @@
-//go:build freebsd || linux || darwin
-// +build freebsd linux darwin
-
 /*
    Copyright The containerd Authors.
 
@@ -17,19 +14,16 @@
    limitations under the License.
 */
 
-package main
+package containerinspector
 
 import (
-	"path/filepath"
+	"context"
 
-	"golang.org/x/sys/unix"
+	"github.com/containerd/nerdctl/pkg/inspecttypes/native"
 )
 
-func isSocketAccessible(s string) error {
-	abs, err := filepath.Abs(s)
-	if err != nil {
-		return err
-	}
-	// set AT_EACCESS to allow running nerdctl as a setuid binary
-	return unix.Faccessat(-1, abs, unix.R_OK|unix.W_OK, unix.AT_REMOVEDIR|unix.AT_EACCESS)
+func inspectNetNS(ctx context.Context, pid int) (*native.NetNS, error) {
+	r := &native.NetNS{}
+
+	return r, nil
 }

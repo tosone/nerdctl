@@ -1,6 +1,3 @@
-//go:build freebsd || linux || darwin
-// +build freebsd linux darwin
-
 /*
    Copyright The containerd Authors.
 
@@ -17,19 +14,28 @@
    limitations under the License.
 */
 
-package main
+package infoutil
 
-import (
-	"path/filepath"
+import "github.com/containerd/nerdctl/pkg/inspecttypes/dockercompat"
 
-	"golang.org/x/sys/unix"
-)
+// UnameR returns `uname -r`
+func UnameR() string {
+	return ""
+}
 
-func isSocketAccessible(s string) error {
-	abs, err := filepath.Abs(s)
-	if err != nil {
-		return err
-	}
-	// set AT_EACCESS to allow running nerdctl as a setuid binary
-	return unix.Faccessat(-1, abs, unix.R_OK|unix.W_OK, unix.AT_REMOVEDIR|unix.AT_EACCESS)
+// UnameM returns `uname -m`
+func UnameM() string {
+	return ""
+}
+
+func DistroName() string {
+	return ""
+}
+
+func CgroupsVersion() string {
+	return ""
+}
+
+func fulfillPlatformInfo(info *dockercompat.Info) {
+	// unimplemented
 }
